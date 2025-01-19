@@ -30,14 +30,9 @@ jobs:
           tags: test-image:latest # Use a local tag for the image
           load: true # Load the image into the local Docker daemon
 
-      - name: Run Container
+      - name: Run robot_collision_checking Tests in Container
         run: |
-          docker run --rm test-image:latest echo "Docker image built successfully!"
-
-      - name: Run robot_collision_checking Tests
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/ros2_ws test-image:latest bash -c "
-            cd /ros2_ws && colcon build --symlink-install && \
+          docker run --rm test-image:latest bash -c "
             source /ros2_ws/install/setup.bash && \
             colcon test --packages-select robot_collision_checking && \
             colcon test-result --all --verbose"
